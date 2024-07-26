@@ -1,6 +1,7 @@
 
-# Scala.js typings for rxjs
+# Scala.js typings for stripe-js
 
+Typings are for version 4.1.0
 
 
 

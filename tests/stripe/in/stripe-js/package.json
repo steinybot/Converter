@@ -4,8 +4,6 @@
   "description": "Stripe.js loading utility",
   "repository": "github:stripe/stripe-js",
   "main": "lib/index.js",
-  "module": "lib/index.mjs",
-  "jsnext:main": "lib/index.mjs",
   "types": "lib/index.d.ts",
   "typings": "lib/index.d.ts",
   "author": "Stripe (https://www.stripe.com)",

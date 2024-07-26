@@ -1,6 +1,6 @@
 organization := "org.scalablytyped"
-name := "rxjs"
-version := "0.0-unknown-f2f63b"
+name := "stripe-js"
+version := "4.1.0-084381"
 scalaVersion := "3.3.1"
 enablePlugins(ScalaJSPlugin)
 libraryDependencies ++= Seq(

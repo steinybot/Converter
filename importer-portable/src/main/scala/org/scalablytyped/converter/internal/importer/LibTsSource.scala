@@ -84,7 +84,13 @@ object LibTsSource {
         //  modules.
         val filesTypings = fromFileEntry(f, f.packageJsonOpt.flatMap(_.files))
 
-        (mainTypings ++ filesTypings).distinct
+        val x = (mainTypings ++ filesTypings).distinct
+
+        println("shortenedFiles:")
+        println(x.mkString("\n"))
+        println
+
+        x
     }
   }
 }

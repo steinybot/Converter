@@ -63,7 +63,7 @@ class Phase1ReadTypescript(
           }
 
         println("includedFiles:")
-        println(includedFiles)
+        println(includedFiles.mkString("\n"))
         println
 
         val includedViaDirective = mutable.Set.empty[InFile]

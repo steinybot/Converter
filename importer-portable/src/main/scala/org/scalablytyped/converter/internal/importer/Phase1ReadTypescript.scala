@@ -62,6 +62,10 @@ class Phase1ReadTypescript(
               boundOrParent.flatMap(PathsFromTsLibSource.filesFrom).distinct
           }
 
+        println("includedFiles:")
+        println(includedFiles)
+        println
+
         val includedViaDirective = mutable.Set.empty[InFile]
 
         lazy val preparingFiles: SortedMap[InFile, Lazy[(TsParsedFile, Set[LibTsSource])]] =

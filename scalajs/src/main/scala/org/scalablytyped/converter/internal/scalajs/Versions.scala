@@ -4,7 +4,7 @@ package scalajs
 import io.circe013.{Decoder, Encoder}
 
 object Versions {
-  val sbtVersion = "1.8.0"
+  val sbtVersion = "1.9.6"
 
   // this accepts any nightly or milestone with the same binversion as a major release. good enough for now
   private val Version = "(\\d+).(\\d+).(\\d+).*".r
@@ -34,9 +34,12 @@ object Versions {
     }
 
     val compilerBridge: Option[Dep.Java] =
-      if (is3)
-        Some(Dep.Java(scalaOrganization, "scala3-sbt-bridge", scalaVersion))
-      else None
+      scalaVersion match {
+        case Version("3", _, _) => Some(Dep.Java(scalaOrganization, "scala3-sbt-bridge", scalaVersion))
+        case Version("2", "13", n) if n.toInt >= 12 =>
+          Some(Dep.Java(scalaOrganization, "scala2-sbt-bridge", scalaVersion))
+        case _ => None
+      }
   }
 
   object Scala {
@@ -44,9 +47,9 @@ object Versions {
     implicit val decodes: Decoder[Scala] = Decoder[String].map(Scala.apply)
   }
 
-  val Scala212 = Scala("2.12.17")
-  val Scala213 = Scala("2.13.10")
-  val Scala3   = Scala("3.2.0")
+  val Scala212 = Scala("2.12.18")
+  val Scala213 = Scala("2.13.12")
+  val Scala3   = Scala("3.3.1")
 
   case class ScalaJs(scalaJsVersion: String) {
     val scalaJsBinVersion: String =

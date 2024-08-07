@@ -4,9 +4,6 @@ lazy val latestTag = "git tag -l --sort=committerdate".!!.linesIterator.toVector
 
 // BSP setup to use with bloop
 Global / bloopExportJarClassifiers := Some(Set("sources"))
-Global / bspEnabled := false
-autoStartServer := false
-Global / excludeLintKeys += autoStartServer
 
 // bloop hasn't upgraded to scala-xml 2 yet
 ThisBuild / libraryDependencySchemes ++= Seq("org.scala-lang.modules" %% "scala-xml" % VersionScheme.Always)
@@ -95,6 +92,7 @@ lazy val `sbt-converter` = project
   .settings(
     name := "sbt-converter",
     addSbtPlugin("ch.epfl.scala" % "sbt-scalajs-bundler" % "0.21.1"),
+    addSbtPlugin("org.scala-js" % "sbt-scalajs" % "1.15.0"),
     sbtPlugin := true,
     // set up 'scripted; sbt plugin for testing sbt plugins
     scriptedBufferLog := false,
@@ -137,7 +135,8 @@ lazy val baseSettings: Project => Project =
         url("https://github.com/oyvindberg"),
       ),
     ),
-    scalaVersion := "2.12.17",
+    pgpSigningKey := Some("763825CAF9034C05E56A042EF5BAF6416BD9F936"),
+    scalaVersion := "2.12.18",
     scalacOptions ~= (_.filterNot(Set("-Ywarn-unused:imports", "-Ywarn-unused:params", "-Xfatal-warnings"))),
     /* disable scaladoc */
     Compile / doc / sources := Nil,

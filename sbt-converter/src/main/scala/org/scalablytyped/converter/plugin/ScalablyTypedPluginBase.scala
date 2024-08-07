@@ -7,12 +7,13 @@ import org.scalablytyped.converter.internal.importer.{ConversionOptions, Enabled
 import org.scalablytyped.converter.internal.scalajs.{Name, Versions}
 import org.scalablytyped.converter.internal.sets.SetOps
 import org.scalablytyped.converter.internal.ts.TsIdentLibrary
+import sbt.*
 import sbt.Tags.Tag
-import sbt._
 import sbt.plugins.JvmPlugin
 
 import java.io.File
 import scala.collection.immutable.SortedSet
+import scala.util.Try
 
 object ScalablyTypedPluginBase extends AutoPlugin {
 
@@ -56,7 +57,7 @@ object ScalablyTypedPluginBase extends AutoPlugin {
 
   override def requires = JvmPlugin && PlatformDepsPlugin
 
-  import autoImport._
+  import autoImport.*
 
   override lazy val projectSettings =
     Seq(
@@ -109,12 +110,14 @@ object ScalablyTypedPluginBase extends AutoPlugin {
   override lazy val globalSettings =
     Seq(
       Global / Keys.onLoad := (state => {
-        val old = (Global / Keys.onLoad).value
+        val old               = (Global / Keys.onLoad).value
+        val sbtVersionPattern = """^(\d+)\.(\d+)(\..*)?""".r
         Keys.sbtVersion.value match {
-          case valid if valid.startsWith("1.8") => old(state)
+          case sbtVersionPattern(major, minor, _) if major == "1" && Try(minor.toInt).toOption.exists(_ >= 8) =>
+            old(state)
           case invalid =>
             sys.error(
-              s"This version of the ScalablyTyped plugin only supports 1.8.x. You're currently using $invalid",
+              s"This version of the ScalablyTyped plugin only supports 1.8.x or later. You're currently using $invalid",
             )
         }
       }),
